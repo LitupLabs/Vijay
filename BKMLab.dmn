@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <definitions xmlns="https://www.omg.org/spec/DMN/20240513/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20230324/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:kie="https://kie.org/dmn/extensions/1.0" expressionLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/" namespace="https://kie.org/dmn/_70F8F2F0-F361-4E9F-B481-B04FEC24B5A1" id="_DECFA507-DF37-4D38-85A0-6A8F6D7B0FFD" name="DMN_B49AD168-0AD7-4018-9052-07C4C3D39802">
+  <itemDefinition id="_B988892C-CA52-4151-A2F3-60C681E449B8" name="RiskCategory" isCollection="true" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+    <typeRef>string</typeRef>
+    <allowedValues id="_1D33084B-73DF-4267-99A9-0F84D0EBF37E" kie:constraintType="enumeration">
+      <text>&quot;HIGH&quot;, &quot;MEDIUM&quot;, &quot;LOW&quot;</text>
+    </allowedValues>
+  </itemDefinition>
   <itemDefinition id="_CFAD09C8-45C4-41B8-B751-AC72F17310B2" name="LoanApplication" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
     <itemComponent id="_C7966950-28D8-41B3-BD3D-9C726F0C11BA" name="Financials" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
       <typeRef>Financials</typeRef>
@@ -27,6 +33,18 @@
       <typeRef>number</typeRef>
     </itemComponent>
   </itemDefinition>
+  <decision name="Risk Category" id="_7D4DAFFB-973C-45E0-95B3-D9B541C8C55C">
+    <variable name="Risk Category" id="_422838F3-8481-4A20-A44B-4877AF850C18" typeRef="RiskCategory" />
+    <informationRequirement id="_B8F87ACD-F389-41EE-8197-410225F46DE9">
+      <requiredInput href="#_0AC9F0FA-AA7C-4AA4-801E-25F659DD63C5" />
+    </informationRequirement>
+    <knowledgeRequirement id="_4814C612-4D1C-4450-A503-F5E66D51AF71">
+      <requiredKnowledge href="#_C1C3A7D8-522F-4CE3-93D9-A53C39DCE102" />
+    </knowledgeRequirement>
+    <literalExpression id="_E5194DCE-FF74-4D82-BB60-E16C3AC6FB4F" typeRef="RiskCategory" label="Risk Category">
+      <text>if Calculate Risk Score () &lt;= 2 then &quot;HIGH&quot; else if Calculate Risk Score () = 3 then &quot;MEDIUM&quot; else &quot;LOW&quot;</text>
+    </literalExpression>
+  </decision>
   <businessKnowledgeModel name="Calculate Risk Score" id="_C1C3A7D8-522F-4CE3-93D9-A53C39DCE102">
     <variable name="Calculate Risk Score" id="_1E0F3668-4D00-4F94-9F00-F0087ADEB3D7" typeRef="number" />
     <encapsulatedLogic label="Calculate Risk Score" typeRef="number" id="_83062EAD-77A8-4A4A-9A7E-113434C0B2D9" kind="FEEL">
@@ -105,9 +123,17 @@
             <text>monthlyIncome + sum(LoanApplication.Financials.otherIncomes)</text>
           </literalExpression>
         </contextEntry>
+        <contextEntry id="_F0CE41E1-1908-4F74-8092-AEDBFF76D265">
+          <literalExpression id="_0DB0AD8E-E0E7-4616-B4BB-6063B244498B" typeRef="number" label="Return">
+            <text>totalIncome - LoanApplication.Financials.existingEMIs</text>
+          </literalExpression>
+        </contextEntry>
       </context>
     </encapsulatedLogic>
   </businessKnowledgeModel>
+  <inputData name="LoanApplication" id="_0AC9F0FA-AA7C-4AA4-801E-25F659DD63C5">
+    <variable name="LoanApplication" id="_3750A22E-DD00-455B-97C3-49D0A60388E9" typeRef="LoanApplication" />
+  </inputData>
   <dmndi:DMNDI>
     <dmndi:DMNDiagram id="_DF1CA5E6-1EF2-46D2-AC3B-941BFBBCF2FA" name="Default DRD" useAlternativeInputDataShape="false">
       <di:extension>
@@ -127,14 +153,34 @@
           <kie:ComponentWidths dmnElementRef="_1E063C62-7644-430D-A487-80C102709F8F">
             <kie:width>508</kie:width>
           </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_0DB0AD8E-E0E7-4616-B4BB-6063B244498B">
+            <kie:width>190</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_E5194DCE-FF74-4D82-BB60-E16C3AC6FB4F">
+            <kie:width>547</kie:width>
+          </kie:ComponentWidths>
         </kie:ComponentsWidthsExtension>
       </di:extension>
       <dmndi:DMNShape id="_3FA765EF-F4C2-4777-8146-13D36C21CD93" dmnElementRef="_C1C3A7D8-522F-4CE3-93D9-A53C39DCE102" isCollapsed="false" isListedInputData="false">
-        <dc:Bounds x="120" y="100" width="160" height="80" />
+        <dc:Bounds x="80" y="140" width="160" height="80" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="_633DE2A1-BD27-4AEC-9B50-EF5693560486" dmnElementRef="_3D32D23E-AAE9-42FE-969C-C186E9EB171F" isCollapsed="false" isListedInputData="false">
-        <dc:Bounds x="420" y="120" width="160" height="80" />
+        <dc:Bounds x="740" y="160" width="160" height="80" />
       </dmndi:DMNShape>
+      <dmndi:DMNShape id="_991251D1-DAB7-4662-AF80-363F304AF864" dmnElementRef="_0AC9F0FA-AA7C-4AA4-801E-25F659DD63C5" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="-20" y="300" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_9532EA43-D785-4AA0-AA3B-5C3EAD39C7CE" dmnElementRef="_7D4DAFFB-973C-45E0-95B3-D9B541C8C55C" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="260" y="300" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="_BC44485E-925E-4821-B957-ECFA4293BFB2" dmnElementRef="_B8F87ACD-F389-41EE-8197-410225F46DE9" sourceElement="_991251D1-DAB7-4662-AF80-363F304AF864" targetElement="_9532EA43-D785-4AA0-AA3B-5C3EAD39C7CE">
+        <di:waypoint x="60" y="340" />
+        <di:waypoint x="260" y="340" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_101ADC2B-1A07-4E63-B8F5-14294F08CDCE" dmnElementRef="_4814C612-4D1C-4450-A503-F5E66D51AF71" sourceElement="_3FA765EF-F4C2-4777-8146-13D36C21CD93" targetElement="_9532EA43-D785-4AA0-AA3B-5C3EAD39C7CE">
+        <di:waypoint x="160" y="180" />
+        <di:waypoint x="340" y="300" />
+      </dmndi:DMNEdge>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>
 </definitions>
