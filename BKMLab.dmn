@@ -17,7 +17,10 @@
     </itemComponent>
   </itemDefinition>
   <itemDefinition id="_265C3EF3-2A2C-402A-BDA1-C7D2BB47DDF9" name="Financials" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
-    <itemComponent id="_5679D68A-324C-4275-8EDA-22AA0819C1B7" name="otherIncomes" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+    <itemComponent id="_5BECDB0A-4C17-412D-A64F-49A1476E43CD" name="monthlyIncome" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent id="_5679D68A-324C-4275-8EDA-22AA0819C1B7" name="otherIncomes" isCollection="true" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
       <typeRef>number</typeRef>
     </itemComponent>
     <itemComponent id="_5213A0DA-3C4C-40A9-B126-CD90170FC5F0" name="existingEMIs" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
@@ -89,7 +92,18 @@
       <formalParameter id="_16D89885-D227-4A14-997A-91A86DAE0AC6" name="LoanApplication" typeRef="LoanApplication" />
       <context id="_968365D7-1CFD-4ABB-AB90-8CE38599BBBB" typeRef="number" label="Return">
         <contextEntry id="_E6C6DCC8-3729-4600-B6E1-AE395042BBEB">
-          <variable id="_FC0CD879-E2B9-4E90-9E8A-1B875B07930F" name="ContextEntry-1" />
+          <variable id="_FC0CD879-E2B9-4E90-9E8A-1B875B07930F" name="monthlyIncome" typeRef="number" />
+          <literalExpression id="_05C8C62B-EC18-4DB1-99F4-C59E6113BF22" typeRef="number" label="monthlyIncome">
+            <text>LoanApplication.Financials.monthlyIncome</text>
+          </literalExpression>
+        </contextEntry>
+        <contextEntry id="_A1C1A37C-83FE-4ADF-B6E5-E31C681DB776">
+          <variable id="_8A76C45C-C771-44EE-A489-57136224ACAD" name="totalIncome" typeRef="number">
+            <description></description>
+          </variable>
+          <literalExpression id="_1E063C62-7644-430D-A487-80C102709F8F" typeRef="number" label="totalIncome">
+            <text>monthlyIncome + sum(LoanApplication.Financials.otherIncomes)</text>
+          </literalExpression>
         </contextEntry>
       </context>
     </encapsulatedLogic>
@@ -106,6 +120,12 @@
           </kie:ComponentWidths>
           <kie:ComponentWidths dmnElementRef="_968365D7-1CFD-4ABB-AB90-8CE38599BBBB">
             <kie:width>120</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_05C8C62B-EC18-4DB1-99F4-C59E6113BF22">
+            <kie:width>508</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_1E063C62-7644-430D-A487-80C102709F8F">
+            <kie:width>508</kie:width>
           </kie:ComponentWidths>
         </kie:ComponentsWidthsExtension>
       </di:extension>
