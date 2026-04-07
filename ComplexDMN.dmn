@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <definitions xmlns="https://www.omg.org/spec/DMN/20240513/MODEL/" expressionLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/" namespace="https://kie.org/dmn/_B6A641B3-CA47-4E6A-806E-F5E50083D4E1" id="_FCEBD42C-F017-459A-A671-37826C002682" name="DMN_9F03EA10-0FD5-4DA7-AE7E-D507E09EA7A9" xmlns:dmndi="https://www.omg.org/spec/DMN/20230324/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:kie="https://kie.org/dmn/extensions/1.0">
   <itemDefinition id="_5E89863D-EF5C-4CC4-95D3-3D7BEDFD4CDE" name="VendorList" isCollection="true" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
-    <typeRef>Any</typeRef>
+    <typeRef>Vendor</typeRef>
   </itemDefinition>
   <itemDefinition id="_D2093408-C31B-4143-9D4B-1A68A6782321" name="ItemTotal" isCollection="true" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/" />
   <itemDefinition id="_C8928E54-0981-4D50-AF95-418B1B29AAF6" name="PurchaseRequest" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
