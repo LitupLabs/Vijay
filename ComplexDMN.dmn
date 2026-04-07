@@ -89,6 +89,15 @@
       </return>
     </for>
   </decision>
+  <decision name="Total Procurement Cost" id="_88B59FCA-D8EC-490E-BE31-66FD6EE97045">
+    <variable name="Total Procurement Cost" id="_C7C0C9A5-8BE8-4A34-BB5F-7DC31F4043C4" typeRef="number" />
+    <informationRequirement id="_CD2DF254-5838-49B9-B53C-CFD07B14CC6C">
+      <requiredDecision href="#_50546900-8B24-48ED-93D2-8D76B62F1AD2" />
+    </informationRequirement>
+    <literalExpression id="_F3406B08-15F5-4943-BE37-0D3C17C58F48" typeRef="number" label="Total Procurement Cost">
+      <text>sum(Item Totals)</text>
+    </literalExpression>
+  </decision>
   <businessKnowledgeModel name="Calculate Item Total" id="_DA8526FD-46B9-4CD1-BC32-DE574FAC0222">
     <variable name="Calculate Item Total" id="_CD690C6B-B9CF-43FB-BA5E-7FFC6B6A5A00" typeRef="number" />
     <encapsulatedLogic label="Calculate Item Total" typeRef="number" id="_4010B95F-FD01-4F52-A918-7C11CE715B7B" kind="FEEL">
@@ -114,6 +123,9 @@
           <kie:ComponentWidths dmnElementRef="_6AD204F7-8965-4202-B857-F4A082AEA52C">
             <kie:width>190</kie:width>
           </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_F3406B08-15F5-4943-BE37-0D3C17C58F48">
+            <kie:width>190</kie:width>
+          </kie:ComponentWidths>
         </kie:ComponentsWidthsExtension>
       </di:extension>
       <dmndi:DMNShape id="_53697AE9-FF95-4EC3-978A-A22B5FE1981E" dmnElementRef="_3B2F6B42-77E0-4116-9894-209BCB1C3BB4" isCollapsed="false" isListedInputData="false">
@@ -125,6 +137,9 @@
       <dmndi:DMNShape id="_3AA607B4-AC2E-40B0-AB00-AFD54B6007A5" dmnElementRef="_50546900-8B24-48ED-93D2-8D76B62F1AD2" isCollapsed="false" isListedInputData="false">
         <dc:Bounds x="680" y="-20" width="160" height="80" />
       </dmndi:DMNShape>
+      <dmndi:DMNShape id="_F4451679-09DA-41C8-A414-70F2CC69EC2A" dmnElementRef="_88B59FCA-D8EC-490E-BE31-66FD6EE97045" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="940" y="0" width="160" height="80" />
+      </dmndi:DMNShape>
       <dmndi:DMNEdge id="_AD8367C1-E81F-4621-97A2-94EF3370326F" dmnElementRef="_AF5E98D9-DA1F-45F4-8500-46929B942C98" sourceElement="_4ACADB19-7B5D-4D6B-92E5-8EC5D5BC24C2" targetElement="_3AA607B4-AC2E-40B0-AB00-AFD54B6007A5">
         <di:waypoint x="240" y="40" />
         <di:waypoint x="680" y="20" />
@@ -132,6 +147,10 @@
       <dmndi:DMNEdge id="_AE95DC74-66CE-4489-A350-C241BB1D998C" dmnElementRef="_414F7C67-C11F-4D51-A98B-0E3D627B8FE2" sourceElement="_53697AE9-FF95-4EC3-978A-A22B5FE1981E" targetElement="_3AA607B4-AC2E-40B0-AB00-AFD54B6007A5">
         <di:waypoint x="680" y="200" />
         <di:waypoint x="760" y="60" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_DB712FB5-878D-43B9-855D-F4FA39D25A10" dmnElementRef="_CD2DF254-5838-49B9-B53C-CFD07B14CC6C" sourceElement="_3AA607B4-AC2E-40B0-AB00-AFD54B6007A5" targetElement="_F4451679-09DA-41C8-A414-70F2CC69EC2A">
+        <di:waypoint x="760" y="20" />
+        <di:waypoint x="940" y="40" />
       </dmndi:DMNEdge>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>
