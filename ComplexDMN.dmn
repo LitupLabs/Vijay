@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <definitions xmlns="https://www.omg.org/spec/DMN/20240513/MODEL/" expressionLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/" namespace="https://kie.org/dmn/_B6A641B3-CA47-4E6A-806E-F5E50083D4E1" id="_FCEBD42C-F017-459A-A671-37826C002682" name="DMN_9F03EA10-0FD5-4DA7-AE7E-D507E09EA7A9" xmlns:dmndi="https://www.omg.org/spec/DMN/20230324/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:kie="https://kie.org/dmn/extensions/1.0">
+  <itemDefinition id="_C8928E54-0981-4D50-AF95-418B1B29AAF6" name="PurchaseRequest" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+    <itemComponent id="_F1958BD9-C44D-46C7-86CF-CB3F4840EDC1" name="id" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_01E4C1DC-0CCC-483C-8DA2-68CC973161B4" name="department" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_DE3C93AD-9668-44C3-8A3D-87400080F030" name="totalAmount" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent id="_9BAE7E58-DC8B-4A52-8097-07A2055FA46B" name="items" isCollection="true" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+      <typeRef>Item</typeRef>
+    </itemComponent>
+  </itemDefinition>
   <itemDefinition id="_B58B3D3A-3C05-433A-95E6-D17DBF778535" name="Policies" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
     <itemComponent id="_448C37BF-B9A4-4A0D-A8D9-875F1386CB88" name="maxDeliveryDays" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
       <typeRef>number</typeRef>
@@ -53,4 +67,33 @@
       <typeRef>number</typeRef>
     </itemComponent>
   </itemDefinition>
+  <businessKnowledgeModel name="Calculate Item Total" id="_DA8526FD-46B9-4CD1-BC32-DE574FAC0222">
+    <variable name="Calculate Item Total" id="_CD690C6B-B9CF-43FB-BA5E-7FFC6B6A5A00" typeRef="number" />
+    <encapsulatedLogic label="Calculate Item Total" typeRef="number" id="_4010B95F-FD01-4F52-A918-7C11CE715B7B" kind="FEEL">
+      <formalParameter id="_5E29AEEB-0D3A-433C-AADC-6BF039671017" name="item" typeRef="Item" />
+      <literalExpression id="_612F6906-9DA9-4E7A-8538-C20EDA1B60D5" typeRef="number" label="Return">
+        <text>item.quantity * item.unitPrice</text>
+      </literalExpression>
+    </encapsulatedLogic>
+  </businessKnowledgeModel>
+  <inputData name="PurchaseRequest" id="_3B2F6B42-77E0-4116-9894-209BCB1C3BB4">
+    <variable name="PurchaseRequest" id="_B0ABE77A-EE8C-401E-AD41-2A05C6F60276" typeRef="PurchaseRequest" />
+  </inputData>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_BF3B9A60-1668-4338-A019-95763D0EEB4E" name="Default DRD" useAlternativeInputDataShape="false">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_612F6906-9DA9-4E7A-8538-C20EDA1B60D5">
+            <kie:width>190</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="_53697AE9-FF95-4EC3-978A-A22B5FE1981E" dmnElementRef="_3B2F6B42-77E0-4116-9894-209BCB1C3BB4" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="360" y="60" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_4ACADB19-7B5D-4D6B-92E5-8EC5D5BC24C2" dmnElementRef="_DA8526FD-46B9-4CD1-BC32-DE574FAC0222" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="160" y="0" width="160" height="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
 </definitions>
