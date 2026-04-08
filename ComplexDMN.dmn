@@ -1,9 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <definitions xmlns="https://www.omg.org/spec/DMN/20240513/MODEL/" expressionLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/" namespace="https://kie.org/dmn/_B6A641B3-CA47-4E6A-806E-F5E50083D4E1" id="_FCEBD42C-F017-459A-A671-37826C002682" name="DMN_9F03EA10-0FD5-4DA7-AE7E-D507E09EA7A9" xmlns:dmndi="https://www.omg.org/spec/DMN/20230324/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:kie="https://kie.org/dmn/extensions/1.0">
+  <itemDefinition id="_A4B76910-22FE-4172-BC8F-1F1611CCB78E" name="ItemList" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/" />
+  <itemDefinition id="_3EC72993-C52C-4CD2-8BB3-BCCE6E6FD9E7" name="ScoredVendorList" isCollection="true" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+    <typeRef>ScoredVendor</typeRef>
+  </itemDefinition>
+  <itemDefinition id="_69726B12-A8A6-45E7-82EE-1BA2E16898DB" name="ScoredVendor" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+    <itemComponent id="_75E11A7D-331C-42DD-8BF2-99BF919630FF" name="vendorId" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_1AA690B0-77EA-4C91-B001-37E6FD7E57C4" name="score" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent id="_AD4E8408-E22A-4992-8701-FA540DE638AA" name="basePriceFactor" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+      <typeRef>number</typeRef>
+    </itemComponent>
+  </itemDefinition>
+  <itemDefinition id="_5D8C6218-6CCF-4A28-84BE-921B8B7E2370" name="FinalCostList" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+    <itemComponent id="_B0BD7C7B-CC63-47F6-B0DB-44842BBABA91" name="finalCost" isCollection="true" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+      <typeRef>FinalCost</typeRef>
+    </itemComponent>
+  </itemDefinition>
+  <itemDefinition id="_5825C839-FF13-4535-B77F-4B742E3410EE" name="Recommendation" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+    <itemComponent id="_A6BABB81-BD63-41F3-A23C-8E28730F8647" name="selectedVendor" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+      <typeRef>ScoredVendorList</typeRef>
+    </itemComponent>
+    <itemComponent id="_F47A7ACD-332A-4B20-B9E0-DC273D0D4975" name="finalCost" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+      <typeRef>FinalCostList</typeRef>
+    </itemComponent>
+    <itemComponent id="_BC9D551B-7F19-4812-9EC9-CC37F2C7292D" name="approvalRequired" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+      <typeRef>boolean</typeRef>
+    </itemComponent>
+  </itemDefinition>
   <itemDefinition id="_5E89863D-EF5C-4CC4-95D3-3D7BEDFD4CDE" name="VendorList" isCollection="true" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
     <typeRef>Vendor</typeRef>
   </itemDefinition>
-  <itemDefinition id="_D2093408-C31B-4143-9D4B-1A68A6782321" name="ItemTotal" isCollection="true" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/" />
+  <itemDefinition id="_D2093408-C31B-4143-9D4B-1A68A6782321" name="Amount" isCollection="true" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/" />
   <itemDefinition id="_C8928E54-0981-4D50-AF95-418B1B29AAF6" name="PurchaseRequest" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
     <itemComponent id="_F1958BD9-C44D-46C7-86CF-CB3F4840EDC1" name="id" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
       <typeRef>string</typeRef>
@@ -72,14 +103,14 @@
     </itemComponent>
   </itemDefinition>
   <decision name="Item Totals" id="_50546900-8B24-48ED-93D2-8D76B62F1AD2">
-    <variable name="Item Totals" id="_29758B5D-92F1-401F-AACE-3ADE7F94437E" typeRef="ItemTotal" />
+    <variable name="Item Totals" id="_29758B5D-92F1-401F-AACE-3ADE7F94437E" typeRef="Amount" />
     <informationRequirement id="_414F7C67-C11F-4D51-A98B-0E3D627B8FE2">
       <requiredInput href="#_3B2F6B42-77E0-4116-9894-209BCB1C3BB4" />
     </informationRequirement>
     <knowledgeRequirement id="_AF5E98D9-DA1F-45F4-8500-46929B942C98">
       <requiredKnowledge href="#_DA8526FD-46B9-4CD1-BC32-DE574FAC0222" />
     </knowledgeRequirement>
-    <for id="_AD1FE082-2203-435F-89CC-F52E28B6DE01" typeRef="ItemTotal" label="Item Totals" iteratorVariable="item">
+    <for id="_AD1FE082-2203-435F-89CC-F52E28B6DE01" typeRef="Amount" label="Item Totals" iteratorVariable="item">
       <in id="_ACF33BDF-47EE-4BC6-B095-459E6CE3EB30">
         <literalExpression id="_21BAD145-07F9-4A43-9EAD-CD6540B88616" label="Expression Name">
           <text>PurchaseRequest.items</text>
@@ -203,7 +234,7 @@
       <di:extension>
         <kie:ComponentsWidthsExtension>
           <kie:ComponentWidths dmnElementRef="_612F6906-9DA9-4E7A-8538-C20EDA1B60D5">
-            <kie:width>190</kie:width>
+            <kie:width>787</kie:width>
           </kie:ComponentWidths>
           <kie:ComponentWidths dmnElementRef="_21BAD145-07F9-4A43-9EAD-CD6540B88616">
             <kie:width>190</kie:width>
