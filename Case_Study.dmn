@@ -6,48 +6,58 @@
     </itemComponent>
   </itemDefinition>
   <itemDefinition id="_871B03F2-DDBD-46AA-A87B-9638D9F8F988" name="Tradeline" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
-    <itemComponent id="_3C60356B-23ED-494C-9D23-70D5DBA8ADD6" name="tl_closed_date" isCollection="true" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+    <itemComponent id="_EAA12BFF-199D-414D-89CB-5755E19374B9" name="tl_acct_type" isCollection="true" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_5ED29A8A-D595-4D53-8A5A-811E146F7F99" name="tl_closed_date" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
       <typeRef>string</typeRef>
     </itemComponent>
   </itemDefinition>
   <decision name="islive" id="_13797711-0F0C-44DD-A0B0-10881DDAE876">
-    <variable name="islive" id="_4C0FA377-BC2E-401D-8E35-DDA72BD1F41F" typeRef="boolean" />
+    <variable name="islive" id="_4C0FA377-BC2E-401D-8E35-DDA72BD1F41F" typeRef="number" />
     <informationRequirement id="_1E0B3966-DB2E-47D3-8D19-D9299107529D">
       <requiredInput href="#_72F5FFF8-DF00-4DB5-BF0F-09166C05280F" />
     </informationRequirement>
-    <decisionTable id="_70130F82-6C4F-4113-AB00-BCF5FCEC4DAB" typeRef="boolean" hitPolicy="UNIQUE" label="islive">
-      <input id="_20222A10-39C7-434E-9E7B-07C6FD247CA9">
-        <inputExpression id="_25036015-F0BC-450D-B7DE-83B29638C0B3" typeRef="Tradeline">
-          <text>t</text>
-        </inputExpression>
-      </input>
-      <output id="_5EEAD745-33CB-4B1D-AF9F-AD6C78231EEE" />
-      <annotation name="Annotations" />
-      <rule id="_3290A71F-4FD7-4083-BA70-097EF69EDC82">
-        <inputEntry id="_EE515794-9716-4E8C-A9D3-7FDD50629D47">
-          <text>-</text>
-        </inputEntry>
-        <outputEntry id="_2E33FB56-9245-4004-98E6-E75E33BB197B">
-          <text></text>
-        </outputEntry>
-        <annotationEntry>
-          <text>// Your annotations here</text>
-        </annotationEntry>
-      </rule>
-    </decisionTable>
+    <literalExpression id="_7ACCFF4A-413A-40C5-AAA8-11CCC2AB5857" typeRef="number" label="islive">
+      <text>count(Request.tbl_tradelines [tl_closed_date != &quot;null&quot; and tl_closed_date != &quot;01/01/1900 00:00:00&quot; and tl_closed_date != null and tl_closed_date !=&quot;&quot;])</text>
+    </literalExpression>
+  </decision>
+  <decision name="UnSecureLiveLoan" id="_BD52E439-BE03-490B-BD41-B8A010561F91">
+    <variable name="UnSecureLiveLoan" id="_813941B6-6388-4DA5-A1FE-45302B611F84" typeRef="string" />
+    <informationRequirement id="_D0654BB4-D2B3-414A-B873-39F0C72BAF01">
+      <requiredInput href="#_72F5FFF8-DF00-4DB5-BF0F-09166C05280F" />
+    </informationRequirement>
+    <literalExpression id="_5C9692AB-FB31-4961-95E3-DBA7D51AE129" typeRef="string" label="UnSecureLiveLoan">
+      <text>[&quot;BUSINESSLOAN&quot;,&quot;CONSUMERLOAN&quot;, &quot;EDUCATIONLOAN&quot;, &quot;LOANONCREDITCARD&quot;, &quot;MICROFINANCEHOUSINGLOAN&quot;, &quot;PERSONALLOAN&quot;, &quot;MUDRALOANSSHISHUKISHORTARUN&quot;, &quot;OTHER&quot;, &quot;PRIMEMINISTERJAANDHANYOJANAOVERDRAFT&quot;]</text>
+    </literalExpression>
+  </decision>
+  <decision name="Count Of Unsec" id="_50219397-D813-45EB-8391-96A3297954D7">
+    <variable name="Count Of Unsec" id="_0E6083E5-DA21-4885-A0DC-9438621046D5" typeRef="number" />
+    <informationRequirement id="_66CB5680-095D-4977-A50D-5F7535A6B822">
+      <requiredDecision href="#_BD52E439-BE03-490B-BD41-B8A010561F91" />
+    </informationRequirement>
+    <informationRequirement id="_A13B49E1-8795-4C1F-8FEA-1694FD38F4DA">
+      <requiredInput href="#_72F5FFF8-DF00-4DB5-BF0F-09166C05280F" />
+    </informationRequirement>
+    <literalExpression id="_9EEC83F3-99C8-45FF-9908-8AF598162F27" typeRef="number" label="Count Of Unsec">
+      <text>count(Request.tbl_tradelines[tl_acct_type in UnSecureLiveLoan])</text>
+    </literalExpression>
   </decision>
   <inputData name="Request" id="_72F5FFF8-DF00-4DB5-BF0F-09166C05280F">
-    <variable name="Request" id="_CEBF4723-5F91-423F-AA1B-F60D0DAEA2DA" typeRef="Tradeline" />
+    <variable name="Request" id="_CEBF4723-5F91-423F-AA1B-F60D0DAEA2DA" typeRef="Request" />
   </inputData>
   <dmndi:DMNDI>
     <dmndi:DMNDiagram id="_B18332C0-BF3F-4842-90EA-56FC5980F84D" name="Default DRD" useAlternativeInputDataShape="false">
       <di:extension>
         <kie:ComponentsWidthsExtension>
-          <kie:ComponentWidths dmnElementRef="_70130F82-6C4F-4113-AB00-BCF5FCEC4DAB">
-            <kie:width>60</kie:width>
-            <kie:width>154</kie:width>
-            <kie:width>118</kie:width>
-            <kie:width>240</kie:width>
+          <kie:ComponentWidths dmnElementRef="_7ACCFF4A-413A-40C5-AAA8-11CCC2AB5857">
+            <kie:width>978</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_9EEC83F3-99C8-45FF-9908-8AF598162F27">
+            <kie:width>723</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_5C9692AB-FB31-4961-95E3-DBA7D51AE129">
+            <kie:width>190</kie:width>
           </kie:ComponentWidths>
         </kie:ComponentsWidthsExtension>
       </di:extension>
@@ -57,9 +67,27 @@
       <dmndi:DMNShape id="_2D22CD97-784E-44C7-B82F-14F40B9D8BD3" dmnElementRef="_13797711-0F0C-44DD-A0B0-10881DDAE876" isCollapsed="false" isListedInputData="false">
         <dc:Bounds x="200" y="260" width="160" height="80" />
       </dmndi:DMNShape>
+      <dmndi:DMNShape id="_6293E975-CD00-443F-9EFB-8F5E8945F44E" dmnElementRef="_BD52E439-BE03-490B-BD41-B8A010561F91" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="-120" y="400" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_8DFB7E49-737E-4FE4-AB95-2DA9696D9055" dmnElementRef="_50219397-D813-45EB-8391-96A3297954D7" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="240" y="440" width="160" height="80" />
+      </dmndi:DMNShape>
       <dmndi:DMNEdge id="_9DE67B0C-8610-4CC4-9FED-7ACE92A219F5" dmnElementRef="_1E0B3966-DB2E-47D3-8D19-D9299107529D" sourceElement="_2FB00502-36C5-419F-99ED-C75A2006212A" targetElement="_2D22CD97-784E-44C7-B82F-14F40B9D8BD3">
         <di:waypoint x="-200" y="280" />
         <di:waypoint x="200" y="300" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_A10B5B5B-6173-409D-9354-A54F66C97F16" dmnElementRef="_D0654BB4-D2B3-414A-B873-39F0C72BAF01" sourceElement="_2FB00502-36C5-419F-99ED-C75A2006212A" targetElement="_6293E975-CD00-443F-9EFB-8F5E8945F44E">
+        <di:waypoint x="-200" y="280" />
+        <di:waypoint x="-120" y="440" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_24EC8831-B0E1-40AC-BF03-3C4B54FA11B1" dmnElementRef="_66CB5680-095D-4977-A50D-5F7535A6B822" sourceElement="_6293E975-CD00-443F-9EFB-8F5E8945F44E" targetElement="_8DFB7E49-737E-4FE4-AB95-2DA9696D9055">
+        <di:waypoint x="-40" y="440" />
+        <di:waypoint x="240" y="480" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_AABEA497-EA7F-4780-A4E4-8C2968995CCF" dmnElementRef="_A13B49E1-8795-4C1F-8FEA-1694FD38F4DA" sourceElement="_2FB00502-36C5-419F-99ED-C75A2006212A" targetElement="_8DFB7E49-737E-4FE4-AB95-2DA9696D9055">
+        <di:waypoint x="-200" y="280" />
+        <di:waypoint x="320" y="440" />
       </dmndi:DMNEdge>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>
