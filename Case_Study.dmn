@@ -6,92 +6,44 @@
     </itemComponent>
   </itemDefinition>
   <itemDefinition id="_871B03F2-DDBD-46AA-A87B-9638D9F8F988" name="Tradeline" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
-    <itemComponent id="_3C60356B-23ED-494C-9D23-70D5DBA8ADD6" name="tl_closed_date" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+    <itemComponent id="_3C60356B-23ED-494C-9D23-70D5DBA8ADD6" name="tl_closed_date" isCollection="true" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
       <typeRef>string</typeRef>
     </itemComponent>
   </itemDefinition>
-  <decision name="nooflivetrades" id="_13797711-0F0C-44DD-A0B0-10881DDAE876">
-    <variable name="nooflivetrades" id="_4C0FA377-BC2E-401D-8E35-DDA72BD1F41F" typeRef="number" />
-    <informationRequirement id="_021EFF27-69CC-4A33-9D81-B2C1AC40F737">
-      <requiredDecision href="#_19BF9D90-A106-414A-940B-15F24736C30E" />
-    </informationRequirement>
-    <literalExpression id="_BC756920-D05F-41EC-83E4-390A913BF690" typeRef="number" label="nooflivetrades">
-      <text>count (isLive)</text>
-    </literalExpression>
-  </decision>
-  <decision name="isLive" id="_19BF9D90-A106-414A-940B-15F24736C30E">
-    <variable name="isLive" id="_2514E7D1-39A8-421A-8D17-51B76CBB71E8" typeRef="boolean" />
-    <informationRequirement id="_E3C16667-5FF5-4381-B2FF-DE4E937C6621">
+  <decision name="islive" id="_13797711-0F0C-44DD-A0B0-10881DDAE876">
+    <variable name="islive" id="_4C0FA377-BC2E-401D-8E35-DDA72BD1F41F" typeRef="boolean" />
+    <informationRequirement id="_1E0B3966-DB2E-47D3-8D19-D9299107529D">
       <requiredInput href="#_72F5FFF8-DF00-4DB5-BF0F-09166C05280F" />
     </informationRequirement>
-    <decisionTable id="_D8D168E7-E8E7-4E70-8990-9CC15EE142D7" typeRef="boolean" hitPolicy="FIRST" label="isLive">
-      <input id="_F70782EE-685A-4C33-ACFF-492692C41F2C">
-        <inputExpression id="_EFD313BF-8889-4EDE-AA72-63FEC4C8F60F" typeRef="string">
-          <text>tl_closed_date</text>
+    <decisionTable id="_70130F82-6C4F-4113-AB00-BCF5FCEC4DAB" typeRef="boolean" hitPolicy="UNIQUE" label="islive">
+      <input id="_20222A10-39C7-434E-9E7B-07C6FD247CA9">
+        <inputExpression id="_25036015-F0BC-450D-B7DE-83B29638C0B3" typeRef="Tradeline">
+          <text>t</text>
         </inputExpression>
       </input>
-      <output id="_F0A8D2CC-0115-4604-AD38-EE7906FF1116" />
+      <output id="_5EEAD745-33CB-4B1D-AF9F-AD6C78231EEE" />
       <annotation name="Annotations" />
-      <rule id="_ED311685-1DCE-40A9-A827-36E28A35FD58">
-        <inputEntry id="_A9510ACC-B72E-47AF-8174-4EFCDB1D36DD">
-          <text>&quot;01/01/1900 00:00:00&quot;</text>
+      <rule id="_3290A71F-4FD7-4083-BA70-097EF69EDC82">
+        <inputEntry id="_EE515794-9716-4E8C-A9D3-7FDD50629D47">
+          <text>-</text>
         </inputEntry>
-        <outputEntry id="_0A539AEA-4540-4D9D-BE06-46592F59ECCD">
-          <text>false</text>
+        <outputEntry id="_2E33FB56-9245-4004-98E6-E75E33BB197B">
+          <text></text>
         </outputEntry>
         <annotationEntry>
           <text>// Your annotations here</text>
         </annotationEntry>
       </rule>
-      <rule id="_CCCFC41D-2BEC-4C46-B996-E8DECFC65C1A">
-        <inputEntry id="_A782FCF8-0061-4192-9DD8-1B2DA0DDE1FB">
-          <text>&quot;null&quot;</text>
-        </inputEntry>
-        <outputEntry id="_4A51B585-BAEC-4B55-80F5-A84C7B83E3AF">
-          <text>false</text>
-        </outputEntry>
-        <annotationEntry>
-          <text></text>
-        </annotationEntry>
-      </rule>
-      <rule id="_76A644ED-4F6B-4561-8597-DF732BDEBF0A">
-        <inputEntry id="_0F9A5AF4-F635-4024-9C20-7047D3682208">
-          <text>&quot;&quot;</text>
-        </inputEntry>
-        <outputEntry id="_9EF6715B-CDA3-47A5-8769-1A5938735C48">
-          <text>false</text>
-        </outputEntry>
-        <annotationEntry>
-          <text></text>
-        </annotationEntry>
-      </rule>
-      <rule id="_25F30843-D322-4935-9B4C-F09C645E0D38">
-        <inputEntry id="_B0143479-FB03-4517-8BE6-094FF770DA20">
-          <text>-</text>
-        </inputEntry>
-        <outputEntry id="_6FE3C6D4-023D-4DD6-83F0-0712552BFCFC">
-          <text>true</text>
-        </outputEntry>
-        <annotationEntry>
-          <text></text>
-        </annotationEntry>
-      </rule>
     </decisionTable>
   </decision>
-  <decision name="isLiveTrade" id="_FD8DA7FA-512A-4913-8FF4-548EEE589F54">
-    <variable name="isLiveTrade" id="_3A598084-3A74-4FBC-81F8-E88D9CF02E7A" typeRef="Tradeline" />
-  </decision>
   <inputData name="Request" id="_72F5FFF8-DF00-4DB5-BF0F-09166C05280F">
-    <variable name="Request" id="_CEBF4723-5F91-423F-AA1B-F60D0DAEA2DA" typeRef="Request" />
+    <variable name="Request" id="_CEBF4723-5F91-423F-AA1B-F60D0DAEA2DA" typeRef="Tradeline" />
   </inputData>
   <dmndi:DMNDI>
     <dmndi:DMNDiagram id="_B18332C0-BF3F-4842-90EA-56FC5980F84D" name="Default DRD" useAlternativeInputDataShape="false">
       <di:extension>
         <kie:ComponentsWidthsExtension>
-          <kie:ComponentWidths dmnElementRef="_BC756920-D05F-41EC-83E4-390A913BF690">
-            <kie:width>589</kie:width>
-          </kie:ComponentWidths>
-          <kie:ComponentWidths dmnElementRef="_D8D168E7-E8E7-4E70-8990-9CC15EE142D7">
+          <kie:ComponentWidths dmnElementRef="_70130F82-6C4F-4113-AB00-BCF5FCEC4DAB">
             <kie:width>60</kie:width>
             <kie:width>154</kie:width>
             <kie:width>118</kie:width>
@@ -100,24 +52,14 @@
         </kie:ComponentsWidthsExtension>
       </di:extension>
       <dmndi:DMNShape id="_2FB00502-36C5-419F-99ED-C75A2006212A" dmnElementRef="_72F5FFF8-DF00-4DB5-BF0F-09166C05280F" isCollapsed="false" isListedInputData="false">
-        <dc:Bounds x="112" y="472" width="200" height="80" />
+        <dc:Bounds x="-300" y="240" width="200" height="80" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="_2D22CD97-784E-44C7-B82F-14F40B9D8BD3" dmnElementRef="_13797711-0F0C-44DD-A0B0-10881DDAE876" isCollapsed="false" isListedInputData="false">
-        <dc:Bounds x="132" y="112" width="160" height="80" />
+        <dc:Bounds x="200" y="260" width="160" height="80" />
       </dmndi:DMNShape>
-      <dmndi:DMNShape id="_A3E2613F-AE6E-43D3-969D-EF1CF000F1CF" dmnElementRef="_19BF9D90-A106-414A-940B-15F24736C30E" isCollapsed="false" isListedInputData="false">
-        <dc:Bounds x="132" y="292" width="160" height="80" />
-      </dmndi:DMNShape>
-      <dmndi:DMNShape id="_32372145-DFC8-42A6-8260-F542E71BAE0A" dmnElementRef="_FD8DA7FA-512A-4913-8FF4-548EEE589F54" isCollapsed="false" isListedInputData="false">
-        <dc:Bounds x="520" y="80" width="160" height="80" />
-      </dmndi:DMNShape>
-      <dmndi:DMNEdge id="_918605B8-C2F1-4AE3-845D-98A488339BC1" dmnElementRef="_021EFF27-69CC-4A33-9D81-B2C1AC40F737" sourceElement="_A3E2613F-AE6E-43D3-969D-EF1CF000F1CF" targetElement="_2D22CD97-784E-44C7-B82F-14F40B9D8BD3">
-        <di:waypoint x="212" y="292" />
-        <di:waypoint x="212" y="192" />
-      </dmndi:DMNEdge>
-      <dmndi:DMNEdge id="_1E64CCC4-91AB-481A-BFAA-44E3C3FB387B" dmnElementRef="_E3C16667-5FF5-4381-B2FF-DE4E937C6621" sourceElement="_2FB00502-36C5-419F-99ED-C75A2006212A" targetElement="_A3E2613F-AE6E-43D3-969D-EF1CF000F1CF">
-        <di:waypoint x="212" y="472" />
-        <di:waypoint x="212" y="372" />
+      <dmndi:DMNEdge id="_9DE67B0C-8610-4CC4-9FED-7ACE92A219F5" dmnElementRef="_1E0B3966-DB2E-47D3-8D19-D9299107529D" sourceElement="_2FB00502-36C5-419F-99ED-C75A2006212A" targetElement="_2D22CD97-784E-44C7-B82F-14F40B9D8BD3">
+        <di:waypoint x="-200" y="280" />
+        <di:waypoint x="200" y="300" />
       </dmndi:DMNEdge>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>
