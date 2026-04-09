@@ -6,7 +6,10 @@
     </itemComponent>
   </itemDefinition>
   <itemDefinition id="_871B03F2-DDBD-46AA-A87B-9638D9F8F988" name="Tradeline" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
-    <itemComponent id="_EAA12BFF-199D-414D-89CB-5755E19374B9" name="tl_acct_type" isCollection="true" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+    <itemComponent id="_F4F1515D-E7BE-4F51-A44E-A6FF2608669B" name="tl_overdue_amount" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent id="_EAA12BFF-199D-414D-89CB-5755E19374B9" name="tl_acct_type" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
       <typeRef>string</typeRef>
     </itemComponent>
     <itemComponent id="_5ED29A8A-D595-4D53-8A5A-811E146F7F99" name="tl_closed_date" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/">
@@ -15,34 +18,82 @@
   </itemDefinition>
   <decision name="islive" id="_13797711-0F0C-44DD-A0B0-10881DDAE876">
     <variable name="islive" id="_4C0FA377-BC2E-401D-8E35-DDA72BD1F41F" typeRef="number" />
-    <informationRequirement id="_1E0B3966-DB2E-47D3-8D19-D9299107529D">
+    <informationRequirement id="_ED782CA6-1930-4D18-AB75-C192AF36029E">
       <requiredInput href="#_72F5FFF8-DF00-4DB5-BF0F-09166C05280F" />
     </informationRequirement>
+    <informationRequirement id="_A2A1E4A2-DCE4-4B71-B0D9-76DF223A5CFB">
+      <requiredDecision href="#_02C39356-0078-4266-AD5F-E589A4B0BB02" />
+    </informationRequirement>
     <literalExpression id="_7ACCFF4A-413A-40C5-AAA8-11CCC2AB5857" typeRef="number" label="islive">
-      <text>count(Request.tbl_tradelines [tl_closed_date != &quot;null&quot; and tl_closed_date != &quot;01/01/1900 00:00:00&quot; and tl_closed_date != null and tl_closed_date !=&quot;&quot;])</text>
+      <text>count(Request.tbl_tradelines [tl_closed_date in ClosedDate])</text>
     </literalExpression>
   </decision>
   <decision name="UnSecureLiveLoan" id="_BD52E439-BE03-490B-BD41-B8A010561F91">
-    <variable name="UnSecureLiveLoan" id="_813941B6-6388-4DA5-A1FE-45302B611F84" typeRef="string" />
+    <variable name="UnSecureLiveLoan" id="_813941B6-6388-4DA5-A1FE-45302B611F84" typeRef="Any" />
     <informationRequirement id="_D0654BB4-D2B3-414A-B873-39F0C72BAF01">
       <requiredInput href="#_72F5FFF8-DF00-4DB5-BF0F-09166C05280F" />
     </informationRequirement>
-    <literalExpression id="_5C9692AB-FB31-4961-95E3-DBA7D51AE129" typeRef="string" label="UnSecureLiveLoan">
+    <literalExpression id="_5C9692AB-FB31-4961-95E3-DBA7D51AE129" typeRef="Any" label="UnSecureLiveLoan">
       <text>[&quot;BUSINESSLOAN&quot;,&quot;CONSUMERLOAN&quot;, &quot;EDUCATIONLOAN&quot;, &quot;LOANONCREDITCARD&quot;, &quot;MICROFINANCEHOUSINGLOAN&quot;, &quot;PERSONALLOAN&quot;, &quot;MUDRALOANSSHISHUKISHORTARUN&quot;, &quot;OTHER&quot;, &quot;PRIMEMINISTERJAANDHANYOJANAOVERDRAFT&quot;]</text>
     </literalExpression>
   </decision>
-  <decision name="Count Of Unsec" id="_50219397-D813-45EB-8391-96A3297954D7">
-    <variable name="Count Of Unsec" id="_0E6083E5-DA21-4885-A0DC-9438621046D5" typeRef="number" />
-    <informationRequirement id="_66CB5680-095D-4977-A50D-5F7535A6B822">
+  <decision name="Count of Unsec" id="_5D64079A-2DEE-4FD1-BE7B-40D94E815B47">
+    <variable name="Count of Unsec" id="_1F83DE9C-592F-4793-8B10-1A48B86A1244" typeRef="number" />
+    <informationRequirement id="_B99445F8-8B9C-4819-84C7-C33DCF02AE52">
       <requiredDecision href="#_BD52E439-BE03-490B-BD41-B8A010561F91" />
     </informationRequirement>
-    <informationRequirement id="_A13B49E1-8795-4C1F-8FEA-1694FD38F4DA">
+    <informationRequirement id="_1C5824FB-E590-4DCD-BBA6-84F7648A3D85">
       <requiredInput href="#_72F5FFF8-DF00-4DB5-BF0F-09166C05280F" />
     </informationRequirement>
-    <literalExpression id="_9EEC83F3-99C8-45FF-9908-8AF598162F27" typeRef="number" label="Count Of Unsec">
-      <text>count(Request.tbl_tradelines[tl_acct_type in UnSecureLiveLoan])</text>
+    <informationRequirement id="_5B0C683A-6757-431F-9C54-4A54F221E613">
+      <requiredDecision href="#_02C39356-0078-4266-AD5F-E589A4B0BB02" />
+    </informationRequirement>
+    <knowledgeRequirement id="_F3097E81-B856-4174-98A9-80D2A2EC4F9A">
+      <requiredKnowledge href="#_7AA3BB9D-38D4-4952-A4AD-1B8C4B325BC3" />
+    </knowledgeRequirement>
+    <literalExpression id="_47C41A2C-39D6-4D84-BB9F-F16A4FC414B9" typeRef="number" label="Count of Unsec">
+      <text>count(for t in Request.tbl_tradelines return isunsecuredlive(t))</text>
     </literalExpression>
   </decision>
+  <decision name="ClosedDate" id="_02C39356-0078-4266-AD5F-E589A4B0BB02">
+    <variable name="ClosedDate" id="_17DD9E4B-66E0-4E09-9840-8E36DF9ADD47" typeRef="Any" />
+    <informationRequirement id="_262FADC1-7435-45A7-8EE6-35E149CCB5F5">
+      <requiredInput href="#_72F5FFF8-DF00-4DB5-BF0F-09166C05280F" />
+    </informationRequirement>
+    <literalExpression id="_5ACF043E-3E88-49CE-B616-04F2DEB7497C" typeRef="Any" label="ClosedDate">
+      <text>[&quot;01/01/1900 00:00:00&quot;, &quot;null&quot;, null, &quot;&quot;]</text>
+    </literalExpression>
+  </decision>
+  <decision name="TotalOverdue" id="_2202D674-19D5-4CC1-8AFF-ABB0DF2D6781">
+    <variable name="TotalOverdue" id="_59C0C70B-43FF-4983-BA21-E1D687EAC2B4" typeRef="number" />
+    <informationRequirement id="_EC93BD3B-2C57-4436-B2C6-CFBECBD3E3F6">
+      <requiredInput href="#_72F5FFF8-DF00-4DB5-BF0F-09166C05280F" />
+    </informationRequirement>
+    <knowledgeRequirement id="_F0DF4E3E-B969-4AB4-A308-FEB9E5EEFFA6">
+      <requiredKnowledge href="#_2C0B32B2-CF17-4338-B4E6-BF9F1298A1A9" />
+    </knowledgeRequirement>
+    <literalExpression id="_991F5FDC-5903-4078-975B-85BC191C490D" typeRef="number" label="TotalOverdue">
+      <text>sum(for t in Request.tbl_tradelines return getoverdueamount(t))</text>
+    </literalExpression>
+  </decision>
+  <businessKnowledgeModel name="isunsecuredlive" id="_7AA3BB9D-38D4-4952-A4AD-1B8C4B325BC3">
+    <variable name="isunsecuredlive" id="_B507C843-55A1-4B85-9FDC-D978E6E0344D" typeRef="boolean" />
+    <encapsulatedLogic label="isunsecuredlive" typeRef="boolean" id="_27DBD8E1-19DC-46BE-968A-C5601DFFCC07" kind="FEEL">
+      <formalParameter id="_678C04B7-7FEC-4D06-8E1E-AC1FC4364631" name="Tradeline" typeRef="Tradeline" />
+      <literalExpression id="_D6AAE23E-9F8F-45DA-83BB-69FEF2C5A1BC" typeRef="boolean" label="Return">
+        <text>Tradeline.tl_acct_type in [&quot;BUSINESSLOAN&quot;,&quot;CONSUMERLOAN&quot;, &quot;EDUCATIONLOAN&quot;, &quot;LOANONCREDITCARD&quot;, &quot;MICROFINANCEHOUSINGLOAN&quot;, &quot;PERSONALLOAN&quot;, &quot;MUDRALOANSSHISHUKISHORTARUN&quot;, &quot;OTHER&quot;, &quot;PRIMEMINISTERJAANDHANYOJANAOVERDRAFT&quot;] and Tradeline.tl_closed_date in [&quot;01/01/1900 00:00:00&quot;, &quot;null&quot;, null, &quot;&quot;]</text>
+      </literalExpression>
+    </encapsulatedLogic>
+  </businessKnowledgeModel>
+  <businessKnowledgeModel name="getoverdueamount" id="_2C0B32B2-CF17-4338-B4E6-BF9F1298A1A9">
+    <variable name="getoverdueamount" id="_ACCF7DC1-1637-48AE-BF8D-0F8AD2A68935" typeRef="number" />
+    <encapsulatedLogic label="getoverdueamount" typeRef="number" id="_8B84CA26-086F-43CC-8558-599CFC749CA3" kind="FEEL">
+      <formalParameter id="_A7FDE797-5495-40A5-BD3D-245B76F544E0" name="Tradeline" typeRef="Tradeline" />
+      <literalExpression id="_51E92104-C151-40F5-8AE9-709906AC9723" typeRef="number" label="Return">
+        <text>Tradeline.tl_overdue_amount</text>
+      </literalExpression>
+    </encapsulatedLogic>
+  </businessKnowledgeModel>
   <inputData name="Request" id="_72F5FFF8-DF00-4DB5-BF0F-09166C05280F">
     <variable name="Request" id="_CEBF4723-5F91-423F-AA1B-F60D0DAEA2DA" typeRef="Request" />
   </inputData>
@@ -53,41 +104,89 @@
           <kie:ComponentWidths dmnElementRef="_7ACCFF4A-413A-40C5-AAA8-11CCC2AB5857">
             <kie:width>978</kie:width>
           </kie:ComponentWidths>
-          <kie:ComponentWidths dmnElementRef="_9EEC83F3-99C8-45FF-9908-8AF598162F27">
-            <kie:width>723</kie:width>
-          </kie:ComponentWidths>
           <kie:ComponentWidths dmnElementRef="_5C9692AB-FB31-4961-95E3-DBA7D51AE129">
+            <kie:width>823</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_47C41A2C-39D6-4D84-BB9F-F16A4FC414B9">
+            <kie:width>739</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_5ACF043E-3E88-49CE-B616-04F2DEB7497C">
+            <kie:width>526</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_D6AAE23E-9F8F-45DA-83BB-69FEF2C5A1BC">
+            <kie:width>737</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_51E92104-C151-40F5-8AE9-709906AC9723">
             <kie:width>190</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_991F5FDC-5903-4078-975B-85BC191C490D">
+            <kie:width>717</kie:width>
           </kie:ComponentWidths>
         </kie:ComponentsWidthsExtension>
       </di:extension>
       <dmndi:DMNShape id="_2FB00502-36C5-419F-99ED-C75A2006212A" dmnElementRef="_72F5FFF8-DF00-4DB5-BF0F-09166C05280F" isCollapsed="false" isListedInputData="false">
-        <dc:Bounds x="-300" y="240" width="200" height="80" />
+        <dc:Bounds x="332" y="472" width="200" height="80" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="_2D22CD97-784E-44C7-B82F-14F40B9D8BD3" dmnElementRef="_13797711-0F0C-44DD-A0B0-10881DDAE876" isCollapsed="false" isListedInputData="false">
-        <dc:Bounds x="200" y="260" width="160" height="80" />
+        <dc:Bounds x="352" y="112" width="160" height="80" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="_6293E975-CD00-443F-9EFB-8F5E8945F44E" dmnElementRef="_BD52E439-BE03-490B-BD41-B8A010561F91" isCollapsed="false" isListedInputData="false">
-        <dc:Bounds x="-120" y="400" width="160" height="80" />
+        <dc:Bounds x="572" y="292" width="160" height="80" />
       </dmndi:DMNShape>
-      <dmndi:DMNShape id="_8DFB7E49-737E-4FE4-AB95-2DA9696D9055" dmnElementRef="_50219397-D813-45EB-8391-96A3297954D7" isCollapsed="false" isListedInputData="false">
-        <dc:Bounds x="240" y="440" width="160" height="80" />
+      <dmndi:DMNShape id="_A62F23B6-99D5-4328-A089-7C28489C8C8C" dmnElementRef="_5D64079A-2DEE-4FD1-BE7B-40D94E815B47" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="662" y="112" width="160" height="80" />
       </dmndi:DMNShape>
-      <dmndi:DMNEdge id="_9DE67B0C-8610-4CC4-9FED-7ACE92A219F5" dmnElementRef="_1E0B3966-DB2E-47D3-8D19-D9299107529D" sourceElement="_2FB00502-36C5-419F-99ED-C75A2006212A" targetElement="_2D22CD97-784E-44C7-B82F-14F40B9D8BD3">
-        <di:waypoint x="-200" y="280" />
-        <di:waypoint x="200" y="300" />
+      <dmndi:DMNShape id="_0A333143-32E1-4857-BCCD-D17495BA663C" dmnElementRef="_02C39356-0078-4266-AD5F-E589A4B0BB02" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="352" y="292" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_12EB8955-AFAB-49C3-968E-9027544549B8" dmnElementRef="_7AA3BB9D-38D4-4952-A4AD-1B8C4B325BC3" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="662" y="472" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_A336E365-B61A-4514-BC52-EDAC9296BF57" dmnElementRef="_2C0B32B2-CF17-4338-B4E6-BF9F1298A1A9" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="112" y="472" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_AC504450-CB6D-4DD8-AA9B-3B14F6C2F937" dmnElementRef="_2202D674-19D5-4CC1-8AFF-ABB0DF2D6781" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="112" y="292" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="_76DE4A2B-FC09-4AD0-B22B-550FDB7272EB" dmnElementRef="_ED782CA6-1930-4D18-AB75-C192AF36029E" sourceElement="_2FB00502-36C5-419F-99ED-C75A2006212A" targetElement="_2D22CD97-784E-44C7-B82F-14F40B9D8BD3">
+        <di:waypoint x="432" y="472" />
+        <di:waypoint x="432" y="192" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_FA76B3B7-128B-449B-9765-E9D2ECBC9C4D" dmnElementRef="_A2A1E4A2-DCE4-4B71-B0D9-76DF223A5CFB" sourceElement="_0A333143-32E1-4857-BCCD-D17495BA663C" targetElement="_2D22CD97-784E-44C7-B82F-14F40B9D8BD3">
+        <di:waypoint x="432" y="292" />
+        <di:waypoint x="432" y="192" />
       </dmndi:DMNEdge>
       <dmndi:DMNEdge id="_A10B5B5B-6173-409D-9354-A54F66C97F16" dmnElementRef="_D0654BB4-D2B3-414A-B873-39F0C72BAF01" sourceElement="_2FB00502-36C5-419F-99ED-C75A2006212A" targetElement="_6293E975-CD00-443F-9EFB-8F5E8945F44E">
-        <di:waypoint x="-200" y="280" />
-        <di:waypoint x="-120" y="440" />
+        <di:waypoint x="432" y="472" />
+        <di:waypoint x="652" y="372" />
       </dmndi:DMNEdge>
-      <dmndi:DMNEdge id="_24EC8831-B0E1-40AC-BF03-3C4B54FA11B1" dmnElementRef="_66CB5680-095D-4977-A50D-5F7535A6B822" sourceElement="_6293E975-CD00-443F-9EFB-8F5E8945F44E" targetElement="_8DFB7E49-737E-4FE4-AB95-2DA9696D9055">
-        <di:waypoint x="-40" y="440" />
-        <di:waypoint x="240" y="480" />
+      <dmndi:DMNEdge id="_9AF3E7AC-E574-4741-98D3-C9363A97B06B" dmnElementRef="_B99445F8-8B9C-4819-84C7-C33DCF02AE52" sourceElement="_6293E975-CD00-443F-9EFB-8F5E8945F44E" targetElement="_A62F23B6-99D5-4328-A089-7C28489C8C8C">
+        <di:waypoint x="652" y="292" />
+        <di:waypoint x="742" y="192" />
       </dmndi:DMNEdge>
-      <dmndi:DMNEdge id="_AABEA497-EA7F-4780-A4E4-8C2968995CCF" dmnElementRef="_A13B49E1-8795-4C1F-8FEA-1694FD38F4DA" sourceElement="_2FB00502-36C5-419F-99ED-C75A2006212A" targetElement="_8DFB7E49-737E-4FE4-AB95-2DA9696D9055">
-        <di:waypoint x="-200" y="280" />
-        <di:waypoint x="320" y="440" />
+      <dmndi:DMNEdge id="_7A252F2D-3293-4AEB-B87E-190BCB46304E" dmnElementRef="_1C5824FB-E590-4DCD-BBA6-84F7648A3D85" sourceElement="_2FB00502-36C5-419F-99ED-C75A2006212A" targetElement="_A62F23B6-99D5-4328-A089-7C28489C8C8C">
+        <di:waypoint x="432" y="472" />
+        <di:waypoint x="742" y="192" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_083042AA-DEBC-4490-A1DB-E319F01FFB30" dmnElementRef="_5B0C683A-6757-431F-9C54-4A54F221E613" sourceElement="_0A333143-32E1-4857-BCCD-D17495BA663C" targetElement="_A62F23B6-99D5-4328-A089-7C28489C8C8C">
+        <di:waypoint x="432" y="292" />
+        <di:waypoint x="742" y="192" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_095893C6-3A49-45F7-8C94-27CE5CB7CDEA" dmnElementRef="_F3097E81-B856-4174-98A9-80D2A2EC4F9A" sourceElement="_12EB8955-AFAB-49C3-968E-9027544549B8" targetElement="_A62F23B6-99D5-4328-A089-7C28489C8C8C">
+        <di:waypoint x="742" y="472" />
+        <di:waypoint x="742" y="192" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_7596572B-2CAC-4724-984B-53AE3455EF12" dmnElementRef="_262FADC1-7435-45A7-8EE6-35E149CCB5F5" sourceElement="_2FB00502-36C5-419F-99ED-C75A2006212A" targetElement="_0A333143-32E1-4857-BCCD-D17495BA663C">
+        <di:waypoint x="432" y="472" />
+        <di:waypoint x="432" y="372" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_B4274B10-6FC6-42C9-ABE8-4000D7CF9911" dmnElementRef="_EC93BD3B-2C57-4436-B2C6-CFBECBD3E3F6" sourceElement="_2FB00502-36C5-419F-99ED-C75A2006212A" targetElement="_AC504450-CB6D-4DD8-AA9B-3B14F6C2F937">
+        <di:waypoint x="432" y="472" />
+        <di:waypoint x="192" y="372" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_88BAB125-ABED-4D4E-9CD3-4871B6D1BD2D" dmnElementRef="_F0DF4E3E-B969-4AB4-A308-FEB9E5EEFFA6" sourceElement="_A336E365-B61A-4514-BC52-EDAC9296BF57" targetElement="_AC504450-CB6D-4DD8-AA9B-3B14F6C2F937">
+        <di:waypoint x="192" y="472" />
+        <di:waypoint x="192" y="372" />
       </dmndi:DMNEdge>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>
